@@ -1,0 +1,5 @@
+{
+  "name": "해외감염병 감시 솔루션 Ver 1.0",
+  "description": "An interactive prototype for a 'Global Infectious Disease Surveillance Solution' powered by AI. This system provides real-time data collection, AI-powered verification, intuitive map-based visualization, and statistical analysis to support public health decision-making.",
+  "requestFramePermissions": []
+}
