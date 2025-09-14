@@ -9,6 +9,7 @@ import AdminToggle from './AdminToggle';
 import TableCellsIcon from './icons/TableCellsIcon';
 import ShieldCheckIcon from './icons/ShieldCheckIcon';
 import Cog6ToothIcon from './icons/Cog6ToothIcon';
+import MapViewModal from './MapViewModal';
 
 const userNavigation = [
   { name: 'GIDS HOME', href: '/', icon: HomeIcon },
@@ -27,6 +28,7 @@ const adminNavigation = [
 
 const Layout: React.FC = () => {
   const [isAdminMode, setIsAdminMode] = useState(false);
+  const [isMapViewModalOpen, setIsMapViewModalOpen] = useState(false);
   const location = useLocation();
 
   const navigation = isAdminMode ? adminNavigation : userNavigation;
@@ -42,43 +44,57 @@ const Layout: React.FC = () => {
   }
 
   return (
-    <div className={`flex h-screen bg-gray-100 font-sans transition-colors duration-300 ${isAdminMode ? 'bg-gray-200' : 'bg-gray-100'}`}>
-      <aside className={`w-64 flex-shrink-0 text-white flex flex-col transition-all duration-300 ${isAdminMode ? 'bg-secondary' : 'bg-primary-dark'}`}>
-        <div className={`p-4 border-b transition-colors duration-300 ${isAdminMode ? 'border-gray-600' : 'border-blue-800'}`}>
-          <h1 className="text-xl font-bold text-center">해외감염병 감시</h1>
-          <h2 className={`text-xs text-center transition-colors duration-300 ${isAdminMode ? 'text-yellow-300' : 'text-blue-200'}`}>
-            {isAdminMode ? '관리자 모드' : 'GIDS Solution v1.1'}
-          </h2>
-        </div>
-        <nav className="mt-4 flex-grow">
-          <ul>
-            {navigation.map((item) => (
-              <li key={item.name}>
-                <NavLink
-                  to={item.href}
-                  className={({ isActive }) =>
-                    `flex items-center px-4 py-3 transition-colors duration-200 ${
-                      isActive 
-                        ? (isAdminMode ? 'bg-gray-700' : 'bg-primary-light')
-                        : (isAdminMode ? 'hover:bg-gray-700' : 'hover:bg-primary-light')
-                    }`
-                  }
+    <>
+      <MapViewModal isOpen={isMapViewModalOpen} onClose={() => setIsMapViewModalOpen(false)} />
+      <div className={`flex h-screen bg-gray-100 font-sans transition-colors duration-300 ${isAdminMode ? 'bg-gray-200' : 'bg-gray-100'}`}>
+        <aside className={`w-64 flex-shrink-0 text-white flex flex-col transition-all duration-300 ${isAdminMode ? 'bg-secondary' : 'bg-primary-dark'}`}>
+          <div className={`p-4 border-b transition-colors duration-300 ${isAdminMode ? 'border-gray-600' : 'border-blue-800'}`}>
+            <h1 className="text-xl font-bold text-center">해외감염병 감시</h1>
+            <h2 className={`text-xs text-center transition-colors duration-300 ${isAdminMode ? 'text-yellow-300' : 'text-blue-200'}`}>
+              {isAdminMode ? '관리자 모드' : 'GIDS Solution v1.1'}
+            </h2>
+          </div>
+          <nav className="mt-4 flex-grow flex flex-col">
+            <ul>
+              {navigation.map((item) => (
+                <li key={item.name}>
+                  <NavLink
+                    to={item.href}
+                    className={({ isActive }) =>
+                      `flex items-center px-4 py-3 transition-colors duration-200 ${
+                        isActive 
+                          ? (isAdminMode ? 'bg-gray-700' : 'bg-primary-light')
+                          : (isAdminMode ? 'hover:bg-gray-700' : 'hover:bg-primary-light')
+                      }`
+                    }
+                  >
+                    <item.icon className="h-6 w-6 mr-3" />
+                    <span>{item.name}</span>
+                  </NavLink>
+                </li>
+              ))}
+            </ul>
+             {!isAdminMode && (
+              <div className="mt-auto p-4">
+                <button 
+                  onClick={() => setIsMapViewModalOpen(true)}
+                  className="group flex items-center justify-center w-full px-4 py-3 rounded-lg text-center transition-all duration-300 bg-white/10 hover:bg-primary-light"
                 >
-                  <item.icon className="h-6 w-6 mr-3" />
-                  <span>{item.name}</span>
-                </NavLink>
-              </li>
-            ))}
-          </ul>
-        </nav>
-        <div className="p-4 border-t border-gray-600">
-            <AdminToggle isAdmin={isAdminMode} setIsAdmin={setIsAdminMode} />
-        </div>
-      </aside>
-      <main className="flex-1 overflow-y-auto p-8">
-        <Outlet />
-      </main>
-    </div>
+                  <VisualizeIcon className="h-6 w-6 mr-3 text-white" />
+                  <span className="text-lg font-semibold text-white">Map View</span>
+                </button>
+              </div>
+            )}
+          </nav>
+          <div className="p-4 border-t border-gray-600">
+              <AdminToggle isAdmin={isAdminMode} setIsAdmin={setIsAdminMode} />
+          </div>
+        </aside>
+        <main className="flex-1 overflow-y-auto p-8">
+          <Outlet />
+        </main>
+      </div>
+    </>
   );
 };
 

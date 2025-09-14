@@ -1,5 +1,11 @@
 import { Crawler, CrawlerStatus, VerificationItem, VerificationStatus, User, VerificationRule, AdminCrawler, KnowledgeBaseItem, UserActivity, NotificationRule, ApiKey } from './types';
 
+export const RISK_LEVEL_COLORS: { [key: string]: string } = {
+  '높음': '#C53030', // Dark Red
+  '중간': '#D97706', // Dark Yellow
+  '낮음': '#38A169', // Green
+};
+
 export const CRAWLER_DATA: Crawler[] = [
   { source: 'WHO (World Health Organization)', status: CrawlerStatus.Active, lastCrawled: '2 mins ago', newDocs: 5 },
   { source: 'CDC (Centers for Disease Control)', status: CrawlerStatus.Active, lastCrawled: '3 mins ago', newDocs: 2 },
@@ -37,11 +43,26 @@ export const KNOWLEDGE_BASE_DATA: KnowledgeBaseItem[] = [
 ];
 
 export const outbreaks = [
-    { id: 5, name: '황열', location: '페루, 이키토스', date: '2025-08-21', risk: '낮음', riskColor: '#D69E2E', lat: -3.7491, lng: -73.2538, size: 12, summary: '페루 아마존 지역에서 황열 사례가 보고되었습니다. 낮은 수준의 전파가 의심됩니다.'},
-    { id: 4, name: '에볼라', location: '콩고, 북키부 주', date: '2025-08-28', risk: '중간', riskColor: '#DD6B20', lat: -1.6753, lng: 29.2285, size: 16, summary: '콩고민주공화국 북동부에서 에볼라 재발 사례가 확인되었습니다. 접촉자 추적이 진행 중입니다.'},
-    { id: 3, name: '콜레라', location: '나이지리아, 카노 주', date: '2025-09-05', risk: '높음', riskColor: '#E53E3E', lat: 12.0022, lng: 8.5920, size: 16, summary: '나이지리아 북부 지역의 오염된 식수원으로 인해 콜레라가 확산되고 있습니다.'},
-    { id: 2, name: '조류 인플루엔자', location: '베트남, 메콩 델타', date: '2025-09-08', risk: '중간', riskColor: '#DD6B20', lat: 10.0452, lng: 105.7468, size: 16, summary: '메콩 델타 지역 가금류 농장에서 H5N1 조류 인플루엔자가 발생하여 당국이 긴급 방역 조치에 나섰습니다.'},
-    { id: 1, name: '뎅기열', location: '브라질, 리우데자네이루', date: '2025-09-10', risk: '높음', riskColor: '#E53E3E', lat: -22.9068, lng: -43.1729, size: 20, pulse: true, summary: '브라질 보건부는 최근 폭우로 인해 모기 개체수가 급증하면서 뎅기열 사례가 30% 증가했다고 보고했습니다.' },
+    { id: 1, name: '말라리아', location: '나이지리아, 라고스', date: '2025-09-12', risk: '높음', riskColor: RISK_LEVEL_COLORS['높음'], lat: 6.5244, lng: 3.3792, size: 18, pulse: true, summary: '라고스 지역에서 우기 이후 말라리아 환자가 급증하고 있으며, 보건 당국이 방역을 강화하고 있습니다.' },
+    { id: 2, name: '지카 바이러스', location: '콜롬비아, 바랑키야', date: '2025-09-11', risk: '중간', riskColor: RISK_LEVEL_COLORS['중간'], lat: 10.9639, lng: -74.7964, size: 14, summary: '콜롬비아 북부 해안 지역에서 지카 바이러스 감염 사례가 소규모로 발생하여 임산부에게 주의보가 내려졌습니다.' },
+    { id: 3, name: '뎅기열', location: '브라질, 리우데자네이루', date: '2025-09-10', risk: '높음', riskColor: RISK_LEVEL_COLORS['높음'], lat: -22.9068, lng: -43.1729, size: 20, summary: '브라질 보건부는 최근 폭우로 인해 모기 개체수가 급증하면서 뎅기열 사례가 30% 증가했다고 보고했습니다.' },
+    { id: 4, name: '리슈만편모충증', location: '아프가니스탄, 카불', date: '2025-09-09', risk: '낮음', riskColor: RISK_LEVEL_COLORS['낮음'], lat: 34.5553, lng: 69.2075, size: 10, summary: '카불 외곽 난민 캠프에서 피부 리슈만편모충증이 산발적으로 보고되고 있습니다.' },
+    { id: 5, name: '조류 인플루엔자', location: '베트남, 메콩 델타', date: '2025-09-08', risk: '중간', riskColor: RISK_LEVEL_COLORS['중간'], lat: 10.0452, lng: 105.7468, size: 16, summary: '메콩 델타 지역 가금류 농장에서 H5N1 조류 인플루엔자가 발생하여 당국이 긴급 방역 조치에 나섰습니다.'},
+    { id: 6, name: '장티푸스', location: '파키스탄, 카라치', date: '2025-09-07', risk: '중간', riskColor: RISK_LEVEL_COLORS['중간'], lat: 24.8607, lng: 67.0011, size: 15, summary: '카라치의 일부 지역에서 오염된 물로 인한 장티푸스 집단 발병이 의심되어 역학 조사가 진행 중입니다.' },
+    { id: 7, name: '콜레라', location: '나이지리아, 카노 주', date: '2025-09-05', risk: '높음', riskColor: RISK_LEVEL_COLORS['높음'], lat: 12.0022, lng: 8.5920, size: 16, summary: '나이지리아 북부 지역의 오염된 식수원으로 인해 콜레라가 확산되고 있습니다.'},
+    { id: 8, name: '일본뇌염', location: '필리핀, 루손 섬', date: '2025-09-04', risk: '중간', riskColor: RISK_LEVEL_COLORS['중간'], lat: 16.0, lng: 121.0, size: 14, summary: '필리핀 루손 섬 농경 지역에서 일본뇌염 바이러스 매개 모기가 발견되어 예방 접종이 권고되었습니다.' },
+    { id: 9, name: '웨스트나일열', location: '미국, 캘리포니아', date: '2025-09-02', risk: '낮음', riskColor: RISK_LEVEL_COLORS['낮음'], lat: 36.7783, lng: -119.4179, size: 12, summary: '캘리포니아 중부에서 웨스트나일열 감염 사례가 확인되었으나 확산세는 주춤한 상태입니다.' },
+    { id: 10, name: '홍역', location: '영국, 런던', date: '2025-09-01', risk: '중간', riskColor: RISK_LEVEL_COLORS['중간'], lat: 51.5072, lng: -0.1276, size: 16, summary: '런던 일부 지역에서 예방 접종률 감소로 인해 홍역이 소규모로 유행하고 있습니다.' },
+    { id: 11, name: '라임병', location: '독일, 바이에른', date: '2025-08-30', risk: '낮음', riskColor: RISK_LEVEL_COLORS['낮음'], lat: 48.7904, lng: 11.4979, size: 10, summary: '독일 남부 바이에른 주 산림 지역에서 진드기를 매개로 한 라임병 감염 위험이 보고되었습니다.' },
+    { id: 12, name: '에볼라', location: '콩고, 북키부 주', date: '2025-08-28', risk: '중간', riskColor: RISK_LEVEL_COLORS['중간'], lat: -1.6753, lng: 29.2285, size: 16, summary: '콩고민주공화국 북동부에서 에볼라 재발 사례가 확인되었습니다. 접촉자 추적이 진행 중입니다.'},
+    { id: 13, name: '크리미안-콩고 출혈열', location: '터키, 앙카라', date: '2025-08-27', risk: '중간', riskColor: RISK_LEVEL_COLORS['중간'], lat: 39.9334, lng: 32.8597, size: 15, summary: '터키 중부 농촌 지역에서 진드기에 물려 CCHF에 감염된 환자가 발생했습니다.' },
+    { id: 14, name: 'MERS', location: '사우디아라비아, 리야드', date: '2025-08-25', risk: '높음', riskColor: RISK_LEVEL_COLORS['높음'], lat: 24.7136, lng: 46.6753, size: 17, summary: '리야드에서 낙타와 접촉한 후 MERS-CoV에 감염된 새로운 사례가 확인되어 보건 당국이 긴장하고 있습니다.' },
+    { id: 15, name: '수족구병', location: '싱가포르', date: '2025-08-22', risk: '중간', riskColor: RISK_LEVEL_COLORS['중간'], lat: 1.3521, lng: 103.8198, size: 14, summary: '싱가포르 내 유치원에서 수족구병 집단 발병이 발생하여 일부 시설이 임시 폐쇄되었습니다.' },
+    { id: 16, name: '황열', location: '페루, 이키토스', date: '2025-08-21', risk: '낮음', riskColor: RISK_LEVEL_COLORS['낮음'], lat: -3.7491, lng: -73.2538, size: 12, summary: '페루 아마존 지역에서 황열 사례가 보고되었습니다. 낮은 수준의 전파가 의심됩니다.'},
+    { id: 17, name: '로타바이러스', location: '인도, 뭄바이', date: '2025-08-20', risk: '중간', riskColor: RISK_LEVEL_COLORS['중간'], lat: 19.0760, lng: 72.8777, size: 16, summary: '뭄바이 빈민가 지역에서 영유아를 중심으로 로타바이러스성 장염이 유행하고 있습니다.' },
+    { id: 18, name: 'A형 간염', location: '이집트, 카이로', date: '2025-08-18', risk: '낮음', riskColor: RISK_LEVEL_COLORS['낮음'], lat: 30.0444, lng: 31.2357, size: 12, summary: '카이로의 특정 식당과 관련된 A형 간염 환자가 발생하여 위생 조사가 이루어지고 있습니다.' },
+    { id: 19, name: '리프트밸리열', location: '케냐, 가리사', date: '2025-08-15', risk: '높음', riskColor: RISK_LEVEL_COLORS['높음'], lat: -0.4573, lng: 39.6461, size: 18, summary: '케냐 동부 지역에서 폭우 후 가축들 사이에서 리프트밸리열이 발생했으며, 인간 감염 사례도 보고되었습니다.' },
+    { id: 20, name: '치쿤구니야열', location: '태국, 방콕', date: '2025-08-12', risk: '중간', riskColor: RISK_LEVEL_COLORS['중간'], lat: 13.7563, lng: 100.5018, size: 15, summary: '방콕 도심에서 치쿤구니야열을 옮기는 모기가 발견되어 방역 작업이 진행 중입니다.' }
 ];
 
 

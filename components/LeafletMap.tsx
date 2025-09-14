@@ -24,8 +24,8 @@ const LeafletMap: React.FC<LeafletMapProps> = ({ outbreaks, onMarkerClick, selec
         zoomControl: false,
       });
 
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+      L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager_labels_under/{z}/{x}/{y}{r}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
       }).addTo(map);
 
       mapRef.current = map;
@@ -66,6 +66,22 @@ const LeafletMap: React.FC<LeafletMapProps> = ({ outbreaks, onMarkerClick, selec
         });
 
         const marker = L.marker([outbreak.lat, outbreak.lng], { icon: customIcon }).addTo(mapRef.current);
+        
+        const tooltipContent = `
+          <div class="font-sans">
+            <p class="font-bold text-base text-primary-dark mb-1">${outbreak.name}</p>
+            <p class="text-sm text-secondary">${outbreak.location}</p>
+            <p class="text-sm">위험 등급: <span class="font-semibold" style="color: ${outbreak.riskColor};">${outbreak.risk}</span></p>
+          </div>
+        `;
+        
+        marker.bindTooltip(tooltipContent, {
+            sticky: true,
+            direction: 'top',
+            offset: L.point(0, -markerSize / 2),
+            className: 'custom-leaflet-tooltip'
+        });
+
         marker.on('click', () => {
           onMarkerClick(outbreak);
         });
@@ -118,9 +134,26 @@ const LeafletMap: React.FC<LeafletMapProps> = ({ outbreaks, onMarkerClick, selec
             opacity: 0.75;
         }
         @keyframes pulse-animation {
-            0% { transform: scale(0.95); opacity: 0.7; }
-            70% { transform: scale(2.5); opacity: 0; }
-            100% { transform: scale(0.95); opacity: 0; }
+            0% { transform: translate(-50%, -50%) scale(1); opacity: 0.7; }
+            70% { transform: translate(-50%, -50%) scale(2.5); opacity: 0; }
+            100% { transform: translate(-50%, -50%) scale(1); opacity: 0; }
+        }
+        .custom-leaflet-tooltip {
+            background-color: rgba(255, 255, 255, 0.9) !important;
+            border: 1px solid #ddd !important;
+            border-radius: 8px !important;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.15) !important;
+            padding: 8px 12px !important;
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+        }
+        .custom-leaflet-tooltip .leaflet-tooltip-content {
+            margin: 0;
+            padding: 0;
+            line-height: 1.4;
+        }
+        .leaflet-tooltip-top:before {
+            border-top-color: rgba(221, 221, 221, 0.9) !important;
         }
       `}</style>
       <div ref={mapContainerRef} />

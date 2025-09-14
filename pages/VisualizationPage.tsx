@@ -4,12 +4,13 @@ import RefreshIcon from '../components/icons/RefreshIcon';
 import ReportModal from '../components/ReportModal';
 import QuestionMarkCircleIcon from '../components/icons/QuestionMarkCircleIcon';
 import VisualizationHelpModal from '../components/VisualizationHelpModal';
-import { outbreaks } from '../constants';
+import { outbreaks, RISK_LEVEL_COLORS } from '../constants';
 import LeafletMap from '../components/LeafletMap';
 
 const diseaseTypes = ['전체', ...Array.from(new Set(outbreaks.map(o => o.name)))];
 
 type RiskLevel = '높음' | '중간' | '낮음';
+const riskLevels: RiskLevel[] = ['높음', '중간', '낮음'];
 
 const VisualizationPage: React.FC = () => {
     const [selectedOutbreak, setSelectedOutbreak] = useState<any>(outbreaks.find(o => o.pulse) || outbreaks[0]);
@@ -29,7 +30,7 @@ const VisualizationPage: React.FC = () => {
 
     useEffect(() => {
         if (mapRef.current && selectedOutbreak) {
-            mapRef.current.flyTo([selectedOutbreak.lat, selectedOutbreak.lng], 6);
+            mapRef.current.flyTo([selectedOutbreak.lat, selectedOutbreak.lng], 7);
         }
     }, [selectedOutbreak]);
 
@@ -146,9 +147,12 @@ const VisualizationPage: React.FC = () => {
                             <div className="absolute bottom-4 right-4 bg-white/80 backdrop-blur-sm p-3 rounded-lg shadow-lg" style={{ zIndex: 1000 }}>
                                 <h4 className="font-semibold mb-2">위험 등급</h4>
                                 <ul className="space-y-1 text-sm">
-                                    <li className="flex items-center"><div className="w-4 h-4 rounded-full" style={{backgroundColor: '#E53E3E'}}></div><span className="ml-2">높음</span></li>
-                                    <li className="flex items-center"><div className="w-4 h-4 rounded-full" style={{backgroundColor: '#DD6B20'}}></div><span className="ml-2">중간</span></li>
-                                    <li className="flex items-center"><div className="w-4 h-4 rounded-full" style={{backgroundColor: '#D69E2E'}}></div><span className="ml-2">낮음</span></li>
+                                    {riskLevels.map(level => (
+                                        <li key={level} className="flex items-center">
+                                            <div className="w-4 h-4 rounded-full" style={{backgroundColor: RISK_LEVEL_COLORS[level]}}></div>
+                                            <span className="ml-2">{level}</span>
+                                        </li>
+                                    ))}
                                 </ul>
                             </div>
                             

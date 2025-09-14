@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { INCOMING_DATA, VERIFIED_DATA } from '../constants';
+import { INCOMING_DATA, VERIFIED_DATA, RISK_LEVEL_COLORS } from '../constants';
 import { VerificationItem, VerificationStatus } from '../types';
 import Card from '../components/Card';
 import BrainIcon from '../components/icons/BrainIcon';
@@ -103,14 +103,14 @@ const AIVerificationPage: React.FC = () => {
     
     const handleVerifiedItemClick = (item: VerificationItem) => {
         let risk = '낮음';
-        let riskColor = '#D69E2E'; 
+        let riskColor = RISK_LEVEL_COLORS['낮음'];
         if (item.finalResult === VerificationStatus.Fact) {
             if (item.finalConfidence && item.finalConfidence > 98) {
                 risk = '높음';
-                riskColor = '#E53E3E';
+                riskColor = RISK_LEVEL_COLORS['높음'];
             } else {
                 risk = '중간';
-                riskColor = '#DD6B20';
+                riskColor = RISK_LEVEL_COLORS['중간'];
             }
         }
 
