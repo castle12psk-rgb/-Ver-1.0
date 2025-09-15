@@ -38,14 +38,19 @@ const ArchCard: React.FC<{ title: string; onHelpClick: () => void; children: Rea
     </div>
 );
 
-const ArchArrow: React.FC<{ label?: string, className?: string }> = ({ label, className = '' }) => {
-    return (
-      <div className={`flex flex-col justify-center items-center text-center ${className}`}>
-        {label && <span className="text-[10px] font-semibold text-gray-500 bg-gray-100 px-1.5 py-0.5 rounded-md mb-1">{label}</span>}
-        <svg className="w-12 h-12 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
-      </div>
-    );
-};
+const Arrow: React.FC<{label: string, className: string, path: string, viewBox?: string, animated?: boolean}> = ({label, className, path, viewBox="0 0 100 100", animated = true}) => (
+    <div className={`absolute ${className} flex items-center justify-center pointer-events-none`}>
+        <svg width="100%" height="100%" viewBox={viewBox} preserveAspectRatio="none" className="absolute top-0 left-0 w-full h-full text-gray-400">
+            <defs>
+                <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="0" refY="3.5" orient="auto">
+                    <polygon points="0 0, 10 3.5, 0 7" fill="currentColor" />
+                </marker>
+            </defs>
+            <path d={path} stroke="currentColor" strokeWidth="1.5" fill="none" markerEnd="url(#arrowhead)" className={animated ? "animate-pulse-slow" : ""}/>
+        </svg>
+        <span className="relative text-[10px] font-semibold text-gray-700 bg-gray-100 px-1.5 py-0.5 rounded-md shadow-sm whitespace-nowrap pointer-events-auto">{label}</span>
+    </div>
+);
 
 const FoundationPillar: React.FC<{ title: string; children: React.ReactNode }> = ({ title, children }) => (
     <div className="flex flex-col items-center text-center p-2 rounded-lg bg-gray-50/50 h-full">
@@ -119,20 +124,6 @@ const ArchitectureModal: React.FC<ArchitectureModalProps> = ({ isOpen, onClose }
             </div>
         )
     }
-
-    const Arrow: React.FC<{label: string, className: string, path: string, viewBox?: string, animated?: boolean}> = ({label, className, path, viewBox="0 0 100 100", animated = true}) => (
-        <div className={`absolute ${className}`}>
-            <svg width="100%" height="100%" viewBox={viewBox} preserveAspectRatio="none" className="text-gray-500/80">
-                <defs>
-                    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="0" refY="3.5" orient="auto">
-                        <polygon points="0 0, 10 3.5, 0 7" fill="currentColor" />
-                    </marker>
-                </defs>
-                <path d={path} stroke="currentColor" strokeWidth="2" fill="none" markerEnd="url(#arrowhead)" className={animated ? "animate-pulse-slow" : ""}/>
-            </svg>
-            <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-4 text-[10px] font-semibold text-gray-700 bg-gray-100 px-1.5 py-0.5 rounded-md shadow-sm">{label}</span>
-        </div>
-    )
 
     return (
         <>
@@ -217,6 +208,7 @@ const ArchitectureModal: React.FC<ArchitectureModalProps> = ({ isOpen, onClose }
                             <li><strong>대시보드:</strong> 실시간 수집 현황, AI 검증 과정 등을 시각적으로 보여줍니다.</li>
                             <li><strong>GIS 시각화 (Leaflet):</strong> 검증된 데이터를 지도 위에 표시하여 지리적 분포와 확산 경로를 직관적으로 파악하게 합니다.</li>
                             <li><strong>통계 분석 (Recharts):</strong> 축적된 데이터를 다양한 차트와 그래프로 분석하여 인사이트를 제공합니다.</li>
+                            <li><strong>관리자 모드 (Admin UI):</strong> 데이터 소스, AI 규칙, 사용자 계정 등 시스템의 핵심 요소를 관리하는 전문가용 인터페이스를 제공합니다.</li>
                         </ul>
                     </li>
                      <li><strong>사용자 인증/인가:</strong> JWT(JSON Web Token) 기반의 보안 시스템을 통해 허가된 사용자만이 시스템에 접근할 수 있도록 제어하며, 역할(Admin, Editor, Viewer)에 따라 접근 가능한 메뉴와 기능을 차등적으로 부여합니다.</li>
@@ -295,11 +287,11 @@ const ArchitectureModal: React.FC<ArchitectureModalProps> = ({ isOpen, onClose }
                             <div className="grid grid-cols-1 xl:grid-cols-12 gap-4 items-stretch">
                                 {/* Layers */}
                                 <div className="xl:col-span-2"><ArchCard title="Ingestion Layer" icon={<GlobeIcon className="w-5 h-5" />} onHelpClick={() => setActiveHelpLayer('ingestion')}><div className="space-y-2"><div className="p-2 bg-gray-100 rounded-md text-sm"><strong>Data Sources</strong><p className="text-xs text-gray-600">WHO, CDC, Reuters API, News Feeds, Academic Journals</p></div><div className="p-2 bg-indigo-100 rounded-lg text-center"><p className="font-bold text-indigo-800 text-sm">Crawler Microservices</p><p className="text-xs text-indigo-600 mb-2">Scheduler (Celery Beat)</p><div className="flex justify-center gap-1.5 flex-wrap"><TechIcon icon="🐍" name="Python" small /><TechIcon icon="🕷️" name="Scrapy" small /><TechIcon icon="🤖" name="Selenium" small /></div></div></div></ArchCard></div>
-                                <ArchArrow className="xl:col-span-1 hidden xl:flex" label="Raw Data Stream"/>
+                                <div className="xl:col-span-1 hidden xl:flex items-center justify-center"><svg className="w-12 h-12 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg></div>
                                 <div className="xl:col-span-2"><ArchCard title="Data Layer" icon={<DatabaseIcon className="w-5 h-5" />} onHelpClick={() => setActiveHelpLayer('data')}><div className="p-2 bg-gray-100 rounded-lg text-center mb-2"><p className="font-semibold text-gray-800 text-sm">Event Bus / Message Queue</p><div className="flex justify-center gap-2 mt-1"><TechIcon icon="🚦" name="Kafka" small /></div></div><div className="p-2 bg-gray-100 rounded-lg text-center"><p className="font-semibold text-gray-800 text-sm">Stream Processor</p><div className="flex justify-center gap-2 mt-1"><TechIcon icon="🌊" name="Spark Streaming" small /></div></div><div className="grid grid-cols-2 gap-2 mt-2"><div className="p-2 bg-red-50 rounded-lg text-center"><p className="font-bold text-red-800 text-sm">Data Lake</p><p className="text-[10px] mb-1">Raw Archives</p><TechIcon icon="📦" name="S3" small /></div><div className="p-2 bg-green-50 rounded-lg text-center"><p className="font-bold text-green-800 text-sm">Log Storage</p><p className="text-[10px] mb-1">System Logs</p><TechIcon icon="🔍" name="Elasticsearch" small /></div></div><div className="grid grid-cols-3 gap-2 mt-2"><div className="p-2 bg-blue-50 rounded-lg text-center"><p className="font-bold text-blue-800 text-sm">Primary DB</p><p className="text-[10px] mb-1">Verified Data</p><TechIcon icon="🐘" name="PostGIS" small /></div><div className="p-2 bg-purple-50 rounded-lg text-center"><p className="font-bold text-purple-800 text-sm">Vector DB</p><p className="text-[10px] mb-1">Embeddings</p><TechIcon icon="📚" name="ChromaDB" small /></div><div className="p-2 bg-yellow-50 rounded-lg text-center"><p className="font-bold text-yellow-800 text-sm">Cache</p><p className="text-[10px] mb-1">Sessions</p><TechIcon icon="⚡" name="Redis" small /></div></div></ArchCard></div>
-                                <ArchArrow className="xl:col-span-1 hidden xl:flex" label="Text for AI"/>
-                                <div className="xl:col-span-3"><ArchCard title="AI Core" icon={<BrainIcon className="w-5 h-5" />} className="border-2 border-accent shadow-accent/20" onHelpClick={() => setActiveHelpLayer('ai')}><div className="p-2 bg-blue-100 rounded-lg text-center"><p className="font-bold text-blue-900 text-sm">AI Verification Microservices</p><p className="text-xs text-blue-600 mb-2">Orchestrator (FastAPI)</p><div className="space-y-2 text-left p-2 bg-white/50 rounded-md text-xs"><strong>1. Classification:</strong> Fact/Fake/Opinion (DeBERTa)<br/><strong>2. Embedding:</strong> Text to Vectors (Sentence-BERT)<br/><strong>3. RAG Fact-Checking:</strong> (Retrieval from Vector DB) → LLM Synthesis (Gemini 2.5)<br/><strong>4. Ensemble:</strong> Final Decision & Confidence Score</div><div className="flex justify-center gap-1.5 mt-2 flex-wrap"><TechIcon icon="🧠" name="Gemini" small /><TechIcon icon="🔗" name="LangChain" small /><TechIcon icon="🤗" name="Transformers" small /></div></div></ArchCard></div>
-                                <ArchArrow className="xl:col-span-1 hidden xl:flex" label="Verified Insights"/>
+                                <div className="xl:col-span-1 hidden xl:flex items-center justify-center"><svg className="w-12 h-12 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg></div>
+                                <div className="xl:col-span-3"><ArchCard title="AI Core" icon={<BrainIcon className="w-5 h-5" />} className="border-2 border-accent shadow-accent/20" onHelpClick={() => setActiveHelpLayer('ai')}><div className="p-2 bg-blue-100 rounded-lg text-center"><p className="font-bold text-blue-900 text-sm">AI Verification Microservices</p><p className="text-xs text-blue-600 mb-2">Orchestrator (FastAPI)</p><div className="space-y-2 text-left p-2 bg-white/50 rounded-md text-xs"><strong>1. Classification:</strong> Fact/Fake/Opinion (DeBERTa)<br/><strong>2. RAG Fact-Checking:</strong> Embedding & Retrieval → Synthesis (Gemini 2.5)<br/><strong>3. Ensemble:</strong> Final Decision & Confidence Score</div><div className="flex justify-center gap-1.5 mt-2 flex-wrap"><TechIcon icon="🧠" name="Gemini" small /><TechIcon icon="🔗" name="LangChain" small /><TechIcon icon="🤗" name="Transformers" small /></div></div></ArchCard></div>
+                                <div className="xl:col-span-1 hidden xl:flex items-center justify-center"><svg className="w-12 h-12 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg></div>
                                 <div className="xl:col-span-2"><ArchCard title="Application Layer" icon={<HomeIcon className="w-5 h-5" />} onHelpClick={() => setActiveHelpLayer('application')}><div className="p-2 bg-teal-100 rounded-lg text-center mb-2"><p className="font-bold text-teal-800 text-sm">Backend API (REST & WebSocket)</p><div className="flex justify-center gap-2 mt-1"><TechIcon icon="🚀" name="FastAPI" small /></div></div><div className="p-2 bg-gray-800 rounded-lg text-center"><p className="font-bold text-white text-sm">GIDS Frontend</p><div className="flex justify-center gap-2 mt-1"><TechIcon icon="⚛️" name="React" small /><TechIcon icon="🗺️" name="Leaflet" small /></div></div><div className="mt-2 space-y-1.5 text-xs bg-gray-100 rounded-md p-2">• User/Admin Dashboards<br/>• GIS Visualization<br/>• Statistical Reports</div></ArchCard></div>
                             </div>
 
