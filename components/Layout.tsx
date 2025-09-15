@@ -10,6 +10,8 @@ import TableCellsIcon from './icons/TableCellsIcon';
 import ShieldCheckIcon from './icons/ShieldCheckIcon';
 import Cog6ToothIcon from './icons/Cog6ToothIcon';
 import MapViewModal from './MapViewModal';
+import ArchitectureModal from './ArchitectureModal';
+import ArchitectureIcon from './icons/ArchitectureIcon';
 
 const userNavigation = [
   { name: 'GIDS HOME', href: '/', icon: HomeIcon },
@@ -29,6 +31,7 @@ const adminNavigation = [
 const Layout: React.FC = () => {
   const [isAdminMode, setIsAdminMode] = useState(false);
   const [isMapViewModalOpen, setIsMapViewModalOpen] = useState(false);
+  const [isArchitectureModalOpen, setIsArchitectureModalOpen] = useState(false);
   const location = useLocation();
 
   const navigation = isAdminMode ? adminNavigation : userNavigation;
@@ -46,6 +49,7 @@ const Layout: React.FC = () => {
   return (
     <>
       <MapViewModal isOpen={isMapViewModalOpen} onClose={() => setIsMapViewModalOpen(false)} />
+      <ArchitectureModal isOpen={isArchitectureModalOpen} onClose={() => setIsArchitectureModalOpen(false)} />
       <div className={`flex h-screen bg-gray-100 font-sans transition-colors duration-300 ${isAdminMode ? 'bg-gray-200' : 'bg-gray-100'}`}>
         <aside className={`w-64 flex-shrink-0 text-white flex flex-col transition-all duration-300 ${isAdminMode ? 'bg-secondary' : 'bg-primary-dark'}`}>
           <div className={`p-4 border-b transition-colors duration-300 ${isAdminMode ? 'border-gray-600' : 'border-blue-800'}`}>
@@ -75,13 +79,20 @@ const Layout: React.FC = () => {
               ))}
             </ul>
              {!isAdminMode && (
-              <div className="mt-auto p-4">
+              <div className="mt-auto p-4 space-y-2">
                 <button 
                   onClick={() => setIsMapViewModalOpen(true)}
-                  className="group flex items-center justify-center w-full px-4 py-3 rounded-lg text-center transition-all duration-300 bg-white/10 hover:bg-primary-light"
+                  className="group flex items-center justify-center w-full px-4 py-3 rounded-lg text-center transition-all duration-300 bg-white/10 hover:bg-white/20"
                 >
                   <VisualizeIcon className="h-6 w-6 mr-3 text-white" />
                   <span className="text-lg font-semibold text-white">Map View</span>
+                </button>
+                 <button 
+                  onClick={() => setIsArchitectureModalOpen(true)}
+                  className="group flex items-center justify-center w-full px-4 py-3 rounded-lg text-center transition-all duration-300 bg-white/10 hover:bg-white/20"
+                >
+                  <ArchitectureIcon className="h-6 w-6 mr-3 text-white" />
+                  <span className="text-lg font-semibold text-white">GIDS Architecture</span>
                 </button>
               </div>
             )}

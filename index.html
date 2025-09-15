@@ -27,10 +27,15 @@
         0%, 100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4); }
         50% { box-shadow: 0 0 10px 5px rgba(16, 185, 129, 0); }
       }
+      @keyframes pulse-slow {
+        0%, 100% { opacity: 0.7; }
+        50% { opacity: 1; }
+      }
       .animate-progress { animation: progress 1.5s ease-in-out forwards; }
       .animate-fadeIn { animation: fadeIn 0.5s ease-out forwards; }
       .animate-fadeInUp { animation: fadeInUp 0.3s ease-out forwards; }
       .animate-pulse-glow-green { animation: pulse-glow-green 2s infinite; }
+      .animate-pulse-slow { animation: pulse-slow 2.5s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
     </style>
     <script>
       tailwind.config = {
