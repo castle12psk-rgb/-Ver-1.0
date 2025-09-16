@@ -38,27 +38,27 @@ const VerificationProgress: React.FC<{ item: VerificationItem, onComplete: (item
     }, [step, item, onComplete, steps]);
 
     return (
-        <div className="w-full space-y-4">
-            <div className="p-4 border border-blue-200 bg-blue-50 rounded-lg">
-                <h3 className="font-bold text-blue-800">{item.title}</h3>
-                <p className="text-sm text-blue-600 mt-1">{item.snippet}</p>
+        <div className="w-full space-y-4 text-white">
+            <div className="p-4 border border-blue-500/30 bg-gray-800 rounded-lg">
+                <h3 className="font-bold text-blue-300">{item.title}</h3>
+                <p className="text-sm text-gray-300 mt-1">{item.snippet}</p>
             </div>
             <div className="space-y-5 pt-2">
                 {steps.map((s, index) => (
                     <div key={s.name}>
                         <div className="flex justify-between items-center mb-1">
-                            <h4 className={`font-semibold ${step > index ? 'text-green-600' : 'text-gray-700'}`}>{s.name}</h4>
-                            {step > index && <span className="text-sm text-green-600">✓ 완료</span>}
-                            {step === index && <span className="text-sm text-blue-600 animate-pulse">처리 중...</span>}
+                            <h4 className={`font-semibold ${step > index ? 'text-green-400' : 'text-gray-300'}`}>{s.name}</h4>
+                            {step > index && <span className="text-sm text-green-400">✓ 완료</span>}
+                            {step === index && <span className="text-sm text-blue-400 animate-pulse">처리 중...</span>}
                         </div>
-                        <div className="w-full bg-gray-200 rounded-full h-2.5">
-                            <div className={`bg-blue-500 h-2.5 rounded-full ${step > index ? 'w-full' : ''} ${step === index ? 'animate-progress' : ''}`} style={{animationDuration: `${s.duration}ms`}}></div>
+                        <div className="w-full bg-gray-700 rounded-full h-2.5">
+                            <div className={`bg-accent h-2.5 rounded-full ${step > index ? 'w-full' : ''} ${step === index ? 'animate-progress' : ''} shadow-[0_0_8px_theme(colors.accent)]`} style={{animationDuration: `${s.duration}ms`}}></div>
                         </div>
                         {step > index && item[s.resultKey as keyof VerificationItem] && (
-                            <div className="mt-2 p-2 bg-gray-100 rounded text-sm text-gray-800 animate-fadeIn">
+                            <div className="mt-2 p-2 bg-gray-800 rounded text-sm text-gray-300 animate-fadeIn">
                                 <p>{String(item[s.resultKey as keyof VerificationItem])}</p>
                                 {s.name === 'Step 3: 최종 판정' && item.finalConfidence && (
-                                    <p className="font-semibold text-primary-dark">신뢰도: {item.finalConfidence.toFixed(1)}%</p>
+                                    <p className="font-semibold text-cyan-400">신뢰도: {item.finalConfidence.toFixed(1)}%</p>
                                 )}
                             </div>
                         )}
@@ -167,17 +167,25 @@ const AIVerificationPage: React.FC = () => {
                         </ul>
                     </Card>
 
-                    <Card title="AI 검증 프로세스" bodyClassName="p-6 flex items-center justify-center">
-                        {processing ? (
-                            <VerificationProgress item={processing} onComplete={handleVerificationComplete} />
-                        ) : (
-                            <div className="text-center text-gray-500">
-                                <BrainIcon className="h-20 w-20 mx-auto text-gray-300 animate-pulse" />
-                                <p className="text-lg mt-4">새로운 정보 검증 대기 중...</p>
-                                <p className="text-sm">수집된 정보 피드에서 항목을 자동으로 가져옵니다.</p>
-                            </div>
-                        )}
-                    </Card>
+                    <div className="bg-gray-900 rounded-lg shadow-xl flex flex-col border border-blue-500/20">
+                        <div className="p-4 border-b border-gray-700/50 flex-shrink-0">
+                            <h2 className="text-xl font-semibold text-white text-center">AI 검증 프로세스</h2>
+                        </div>
+                        <div className="p-6 flex-grow flex items-center justify-center">
+                             {processing ? (
+                                <VerificationProgress item={processing} onComplete={handleVerificationComplete} />
+                            ) : (
+                                <div className="text-center text-gray-400">
+                                    <div className="relative inline-block">
+                                        <div className="absolute inset-0 bg-accent/30 rounded-full blur-2xl animate-pulse-slow"></div>
+                                        <BrainIcon className="h-20 w-20 mx-auto text-blue-300 relative" />
+                                    </div>
+                                    <p className="text-lg mt-4 font-semibold">새로운 정보 검증 대기 중...</p>
+                                    <p className="text-sm text-gray-500">수집된 정보 피드에서 항목을 자동으로 가져옵니다.</p>
+                                </div>
+                            )}
+                        </div>
+                    </div>
 
                     <Card title="검증 완료" bodyClassName="!p-0" className="overflow-hidden">
                         <div className="overflow-y-auto">

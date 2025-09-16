@@ -176,14 +176,31 @@ const CrawlerDashboardPage: React.FC = () => {
             </div>
           </Card>
 
-          <Card title="실시간 수집 피드">
-              <ul className="space-y-3 overflow-y-auto h-96 font-mono text-xs">
-                {liveFeed.map((item, index) => (
-                   <li key={index} className="p-2 bg-gray-50 rounded-md animate-fadeIn">
-                     {item}
-                   </li>
-                ))}
-              </ul>
+          <Card className="bg-gray-800" bodyClassName="p-4 flex flex-col">
+              <h2 className="text-xl font-semibold text-white border-b border-gray-600 pb-3 mb-3">실시간 수집 피드</h2>
+              <div className="bg-black rounded-md p-4 h-96 overflow-y-auto font-mono text-xs flex-grow custom-scrollbar">
+                  <ul className="space-y-2">
+                      {liveFeed.map((item, index) => {
+                          const parts = item.match(/(\[.*?\])\s(\[.*?\])\s(.*)/);
+                          if (!parts) {
+                              return (
+                                  <li key={index} className="text-gray-300 animate-fadeIn">
+                                  {item}
+                                  </li>
+                              );
+                          }
+                          const [, timestamp, source, message] = parts;
+                          return (
+                              <li key={index} className="animate-fadeIn">
+                                  <span className="text-gray-500">{timestamp}</span>{' '}
+                                  <span className="text-cyan-400">{source}</span>{' '}
+                                  <span className="text-gray-200">{message}</span>
+                              </li>
+                          );
+                      })}
+                      {liveFeed.length === 0 && <li className="text-gray-500">실시간 피드 대기 중...</li>}
+                  </ul>
+              </div>
           </Card>
         </div>
       </div>
