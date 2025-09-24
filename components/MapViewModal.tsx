@@ -77,7 +77,9 @@ const MapViewModal: React.FC<MapViewModalProps> = ({ isOpen, onClose }) => {
 
     const handleMinimize = (e: React.MouseEvent) => {
         e.stopPropagation();
-        setPreMinimizeState(modalState === 'maximized' ? 'maximized' : 'normal');
+        if (modalState !== 'minimized') {
+            setPreMinimizeState(modalState);
+        }
         setModalState('minimized');
     };
 

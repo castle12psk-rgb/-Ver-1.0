@@ -10,8 +10,9 @@ import TableCellsIcon from './icons/TableCellsIcon';
 import ShieldCheckIcon from './icons/ShieldCheckIcon';
 import Cog6ToothIcon from './icons/Cog6ToothIcon';
 import MapViewModal from './MapViewModal';
-import ArchitectureModal from './ArchitectureModal';
+import ArchitectureHelpModal from './ArchitectureModal';
 import ArchitectureIcon from './icons/ArchitectureIcon';
+import PencilSquareIcon from './icons/PencilSquareIcon';
 
 const userNavigation = [
   { name: 'GIDS HOME', href: '/', icon: HomeIcon },
@@ -19,6 +20,7 @@ const userNavigation = [
   { name: 'AI 기반 정보 검증', href: '/verification', icon: VerifyIcon },
   { name: '직관적 시각화', href: '/visualization', icon: VisualizeIcon },
   { name: '데이터 통계 및 정리', href: '/statistics', icon: StatsIcon },
+  { name: '개발 계획서 작성', href: '/development-plan', icon: PencilSquareIcon },
 ];
 
 const adminNavigation = [
@@ -49,7 +51,8 @@ const Layout: React.FC = () => {
   return (
     <>
       <MapViewModal isOpen={isMapViewModalOpen} onClose={() => setIsMapViewModalOpen(false)} />
-      <ArchitectureModal isOpen={isArchitectureModalOpen} onClose={() => setIsArchitectureModalOpen(false)} />
+      {/* FIX: Updated component to ArchitectureHelpModal after renaming */}
+      <ArchitectureHelpModal isOpen={isArchitectureModalOpen} onClose={() => setIsArchitectureModalOpen(false)} />
       <div className={`flex h-screen bg-gray-100 font-sans transition-colors duration-300 ${isAdminMode ? 'bg-gray-200' : 'bg-gray-100'}`}>
         <aside className={`w-64 flex-shrink-0 text-white flex flex-col transition-all duration-300 ${isAdminMode ? 'bg-secondary' : 'bg-primary-dark'}`}>
           <div className={`p-4 border-b transition-colors duration-300 ${isAdminMode ? 'border-gray-600' : 'border-blue-800'}`}>

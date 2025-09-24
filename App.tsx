@@ -6,6 +6,7 @@ import CrawlerDashboardPage from './pages/CrawlerDashboardPage';
 import AIVerificationPage from './pages/AIVerificationPage';
 import VisualizationPage from './pages/VisualizationPage';
 import StatisticsPage from './pages/StatisticsPage';
+import DevelopmentPlanPage from './pages/DevelopmentPlanPage';
 import AdminDashboardPage from './pages/AdminDashboardPage';
 import AdminCollectionPage from './pages/AdminCollectionPage';
 import AdminVerificationPage from './pages/AdminVerificationPage';
@@ -21,6 +22,7 @@ const App: React.FC = () => {
         <Route path="verification" element={<AIVerificationPage />} />
         <Route path="visualization" element={<VisualizationPage />} />
         <Route path="statistics" element={<StatisticsPage />} />
+        <Route path="development-plan" element={<DevelopmentPlanPage />} />
         {/* Admin Routes */}
         <Route path="admin/dashboard" element={<AdminDashboardPage />} />
         <Route path="admin/collection" element={<AdminCollectionPage />} />

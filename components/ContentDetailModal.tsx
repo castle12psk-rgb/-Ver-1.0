@@ -17,6 +17,7 @@ interface ContentDetailModalProps {
 
 const ContentDetailModal: React.FC<ContentDetailModalProps> = ({ isOpen, onClose, content }) => {
   const [modalState, setModalState] = useState<'normal' | 'maximized' | 'minimized'>('normal');
+  const [preMinimizeState, setPreMinimizeState] = useState<'normal' | 'maximized'>('maximized');
 
   if (!isOpen || !content) return null;
 
@@ -27,6 +28,9 @@ const ContentDetailModal: React.FC<ContentDetailModalProps> = ({ isOpen, onClose
 
   const handleMinimize = (e: React.MouseEvent) => {
     e.stopPropagation();
+    if (modalState !== 'minimized') {
+        setPreMinimizeState(modalState);
+    }
     setModalState('minimized');
   };
   
@@ -36,7 +40,7 @@ const ContentDetailModal: React.FC<ContentDetailModalProps> = ({ isOpen, onClose
   }
 
   const handleRestore = () => {
-    setModalState('normal');
+    setModalState(preMinimizeState);
   };
 
   const wrapperClasses = {

@@ -14,7 +14,6 @@ import LayerHelpModal from './LayerHelpModal';
 import UsersIcon from './icons/UsersIcon';
 import ArrowPathIcon from './icons/ArrowPathIcon';
 
-// FIX: Renamed interface for consistency
 interface ArchitectureHelpModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -62,7 +61,6 @@ const FoundationPillar: React.FC<{ title: string; children: React.ReactNode }> =
 
 type HelpLayer = 'ingestion' | 'data' | 'ai' | 'application' | 'foundation' | 'dfd';
 
-// FIX: Renamed component to ArchitectureHelpModal for consistency
 const ArchitectureHelpModal: React.FC<ArchitectureHelpModalProps> = ({ isOpen, onClose }) => {
     const [modalState, setModalState] = useState<'normal' | 'maximized' | 'minimized'>('maximized');
     const [preMinimizeState, setPreMinimizeState] = useState<'normal' | 'maximized'>('maximized');
@@ -86,9 +84,7 @@ const ArchitectureHelpModal: React.FC<ArchitectureHelpModalProps> = ({ isOpen, o
 
     const handleMinimize = (e: React.MouseEvent) => {
         e.stopPropagation();
-        if (modalState !== 'minimized') {
-            setPreMinimizeState(modalState);
-        }
+        setPreMinimizeState(modalState === 'maximized' ? 'maximized' : 'normal');
         setModalState('minimized');
     };
     
