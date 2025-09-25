@@ -4,6 +4,13 @@ import WindowIcon from './icons/WindowIcon';
 import Square2StackIcon from './icons/Square2StackIcon';
 import XMarkIcon from './icons/XMarkIcon';
 import BrainIcon from './icons/BrainIcon';
+import GeminiIcon from './icons/GeminiIcon';
+import KTIcon from './icons/KTIcon';
+import LangchainIcon from './icons/LangchainIcon';
+import ChromaDbIcon from './icons/ChromaDbIcon';
+import FastApiIcon from './icons/FastApiIcon';
+import KafkaIcon from './icons/KafkaIcon';
+import CheckCircleIcon from './icons/CheckCircleIcon';
 
 interface TechSelectionHelpModalProps {
   isOpen: boolean;
@@ -90,7 +97,7 @@ const TechSelectionHelpModal: React.FC<TechSelectionHelpModalProps> = ({ isOpen,
                 
                 {modalState !== 'minimized' && (
                     <>
-                        <div className="p-8 overflow-y-auto flex-grow">
+                        <div className="p-8 overflow-y-auto flex-grow custom-scrollbar">
                             <div className="prose max-w-none">
                                 <h3>서론: AI Core, GIDS 성공의 핵심</h3>
                                 <p>GIDS 시스템의 AI Core는 단순한 기능 모듈이 아닌, 전체 솔루션의 신뢰성과 가치를 결정하는 심장부입니다. AI 모델의 선정은 단순히 '가장 강력한 모델'을 선택하는 것을 넘어, GIDS의 고유한 요구사항인 ▲글로벌 다국어 처리 능력, ▲의료/보건 분야의 전문성, ▲실시간 정보 대응 능력, ▲정부 기관이 요구하는 데이터 보안 수준을 모두 만족시켜야 하는 복합적인 의사결정 과정입니다.</p>
@@ -124,13 +131,77 @@ const TechSelectionHelpModal: React.FC<TechSelectionHelpModalProps> = ({ isOpen,
                                     </div>
                                 </HelpSection>
 
-                                <HelpSection title="3. 기술 스택 시너지">
-                                    <p>AI 모델의 성능을 100% 발휘하기 위해서는 주변 기술 스택과의 유기적인 결합이 필수적입니다. GIDS의 기술 스택은 AI Core와의 시너지를 극대화하도록 설계되었습니다.</p>
-                                     <ul className="list-disc space-y-2 text-gray-700">
-                                        <li><strong>Python & FastAPI:</strong> AI/ML 생태계의 표준 언어인 Python과 고성능 비동기 웹 프레임워크인 FastAPI를 백엔드로 채택하여, 무거운 AI 모델의 추론 작업을 블로킹 없이 효율적으로 처리하고, 다른 서비스들과 신속하게 통신합니다.</li>
-                                        <li><strong>Vector DB (ChromaDB):</strong> RAG의 핵심인 '검색' 속도와 정확도를 보장합니다. 텍스트를 벡터로 변환하여 저장하고, 의미적으로 유사한 문서를 수백만 건의 데이터 속에서 밀리초 단위로 찾아내어 LLM에 제공하는 역할을 합니다.</li>
-                                        <li><strong>Kafka:</strong> 수집 Layer에서 하루 수십만 건의 데이터가 쏟아져 들어오더라도 AI Core가 과부하에 걸리지 않도록 하는 '완충 장치'입니다. 데이터를 순서대로 큐에 쌓아두고, AI 서비스가 처리 가능한 만큼 순차적으로 가져가도록 하여 시스템 전체의 안정성을 보장합니다.</li>
-                                    </ul>
+                                <HelpSection title="3. AI Core 아키텍처 및 기술 시너지">
+                                    <p>AI 모델의 성능을 100% 발휘하기 위해서는 주변 기술 스택과의 유기적인 결합이 필수적입니다. GIDS의 AI Core는 아래와 같이 각 기술의 장점을 극대화하여 시너지를 창출하도록 설계되었습니다.</p>
+                                    <div className="not-prose mt-4 p-4 bg-slate-100 rounded-xl border-2 border-slate-200 shadow-inner relative" style={{ height: '450px' }}>
+                                        {/* Step 1: Input */}
+                                        <div className="absolute top-1/2 left-8 transform -translate-y-1/2">
+                                            <div className="p-3 bg-white rounded-lg shadow border w-40 text-center">
+                                                <KafkaIcon className="w-8 h-8 mx-auto text-black"/>
+                                                <p className="font-bold text-sm mt-1">Kafka</p>
+                                                <p className="text-xs text-gray-500">실시간 데이터 버스</p>
+                                            </div>
+                                        </div>
+
+                                        {/* Step 2: Orchestration */}
+                                        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex flex-col items-center gap-4">
+                                            <div className="p-3 bg-white rounded-lg shadow border w-48 text-center border-2 border-accent">
+                                                <div className="flex justify-center gap-2">
+                                                    <FastApiIcon className="w-8 h-8"/>
+                                                    <LangchainIcon className="w-8 h-8 text-purple-600"/>
+                                                </div>
+                                                <p className="font-bold text-sm mt-1">FastAPI + LangChain</p>
+                                                <p className="text-xs text-gray-500">AI 오케스트레이터 & API 서버</p>
+                                            </div>
+                                            <div className="p-3 bg-white rounded-lg shadow border w-48 text-center">
+                                                <ChromaDbIcon className="w-8 h-8 mx-auto"/>
+                                                <p className="font-bold text-sm mt-1">ChromaDB</p>
+                                                <p className="text-xs text-gray-500">벡터 DB (지식 베이스)</p>
+                                            </div>
+                                        </div>
+
+                                        {/* Step 3: Hybrid Models */}
+                                        <div className="absolute top-[25%] right-8 transform -translate-y-1/2">
+                                            <div className="p-3 bg-white rounded-lg shadow border w-48 text-center">
+                                                <GeminiIcon className="w-8 h-8 mx-auto"/>
+                                                <p className="font-bold text-sm mt-1">Gemini 2.5</p>
+                                                <p className="text-xs text-gray-500">글로벌 정보 검증 (Outward)</p>
+                                            </div>
+                                        </div>
+                                        <div className="absolute top-[75%] right-8 transform -translate-y-1/2">
+                                            <div className="p-3 bg-white rounded-lg shadow border w-48 text-center">
+                                                <KTIcon className="w-8 h-8 mx-auto"/>
+                                                <p className="font-bold text-sm mt-1">KT Mi:dm 2.0</p>
+                                                <p className="text-xs text-gray-500">보안 정보 분석 (Inward)</p>
+                                            </div>
+                                        </div>
+
+                                        {/* SVG Arrows and Labels */}
+                                        <svg className="absolute top-0 left-0 w-full h-full pointer-events-none">
+                                            <defs>
+                                                <marker id="arrowhead-synergy" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#6b7280" /></marker>
+                                                <marker id="arrowhead-synergy-blue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#3b82f6" /></marker>
+                                                <marker id="arrowhead-synergy-green" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#16a34a" /></marker>
+                                            </defs>
+                                            
+                                            {/* 1. Kafka to Orchestrator */}
+                                            <path d="M165 225 H 350" stroke="#6b7280" strokeWidth="2" fill="none" markerEnd="url(#arrowhead-synergy)"/>
+                                            <text x="190" y="215" className="text-[10px] font-semibold fill-gray-700">1. 실시간 데이터 스트림 Ingest</text>
+                                            
+                                            {/* 2. Orchestrator to/from ChromaDB */}
+                                            <path d="M430 260 V 325" stroke="#6b7280" strokeWidth="2" fill="none" markerEnd="url(#arrowhead-synergy)"/>
+                                            <text x="435" y="295" className="text-[10px] font-semibold fill-gray-700">2. RAG Context 검색</text>
+                                            <path d="M450 325 V 260" stroke="#6b7280" strokeWidth="2" fill="none" markerEnd="url(#arrowhead-synergy)"/>
+                                            <text x="350" y="295" className="text-[10px] font-semibold fill-gray-700">근거 전달</text>
+
+                                            {/* 3. Orchestrator to Models */}
+                                            <path d="M530 225 C 580 225, 580 112, 630 112" stroke="#3b82f6" strokeWidth="2" fill="none" markerEnd="url(#arrowhead-synergy-blue)" strokeDasharray="5,5"/>
+                                            <text x="510" y="160" className="text-[10px] font-semibold fill-blue-700">3a. [해외/공개] 정보 검증 요청</text>
+                                            <path d="M530 225 C 580 225, 580 337, 630 337" stroke="#16a34a" strokeWidth="2" fill="none" markerEnd="url(#arrowhead-synergy-green)" strokeDasharray="5,5"/>
+                                            <text x="510" y="290" className="text-[10px] font-semibold fill-green-700">3b. [국내/민감] 정보 검증 요청</text>
+
+                                        </svg>
+                                    </div>
                                 </HelpSection>
                             </div>
                         </div>
